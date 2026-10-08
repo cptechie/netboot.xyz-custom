@@ -24,8 +24,11 @@ echo -n Password for the localadmin (sudo) account: && read admin_pw
 echo -n Protect liveview URL: && read upv_url
 echo -n Protect username: && read upv_username
 echo -n Protect password: && read upv_password
-kernel ${deb_root}/linux initrd=initrd.gz auto=true priority=critical url=${upv_base}/preseed.cfg passwd/user-password=${admin_pw} passwd/user-password-again=${admin_pw} upv_base=${upv_base} upv_url=${upv_url} upv_username=${upv_username} upv_password=${upv_password}
+imgfree
+kernel ${deb_root}/linux initrd=initrd.magic auto=true priority=critical url=${upv_base}/preseed.cfg passwd/user-password=${admin_pw} passwd/user-password-again=${admin_pw} upv_base=${upv_base} upv_url=${upv_url} upv_username=${upv_username} upv_password=${upv_password}
 initrd ${deb_root}/initrd.gz
+iseq ${platform} efi && iseq ${deb_arch} amd64 && shim ${deb_root}/bootnetx64.efi ||
+iseq ${platform} efi && iseq ${deb_arch} arm64 && shim ${deb_root}/bootnetaa64.efi ||
 boot || goto custom
 
 :custom_exit

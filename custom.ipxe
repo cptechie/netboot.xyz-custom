@@ -3,10 +3,31 @@
 ### netboot.xyz-custom menu
 ###
 
-:start
-echo Hello world!
-sleep 10
+:custom
+clear custom_choice
+menu Custom
+item --gap UniFi Protect Viewer
+item upv_kiosk ${space} Debian 13 + Protect Viewer kiosk (ERASES FIRST DISK)
+choose custom_choice || goto custom_exit
+echo ${cls}
+goto ${custom_choice}
 goto custom_exit
 
+:upv_kiosk
+set upv_base https://raw.githubusercontent.com/${github_user}/netboot.xyz-custom/master/unifi-protect-viewer
+iseq ${buildarch} arm64 && set deb_arch arm64 || set deb_arch amd64
+set deb_root http://deb.debian.org/debian/dists/trixie/main/installer-${deb_arch}/current/images/netboot/debian-installer/${deb_arch}
+echo UniFi Protect Viewer kiosk install. No spaces in any value.
+echo Leave the Protect fields blank to use the setup screen on first boot.
+echo
+echo -n Password for the localadmin (sudo) account: && read admin_pw
+echo -n Protect liveview URL: && read upv_url
+echo -n Protect username: && read upv_username
+echo -n Protect password: && read upv_password
+kernel ${deb_root}/linux initrd=initrd.gz auto=true priority=critical url=${upv_base}/preseed.cfg passwd/user-password=${admin_pw} passwd/user-password-again=${admin_pw} upv_base=${upv_base} upv_url=${upv_url} upv_username=${upv_username} upv_password=${upv_password}
+initrd ${deb_root}/initrd.gz
+boot || goto custom
+
 :custom_exit
-exit 0
+chain utils.ipxe
+exit

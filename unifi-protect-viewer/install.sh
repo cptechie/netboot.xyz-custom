@@ -14,6 +14,7 @@
 #   UPV_USER       Local kiosk account (default: upv)
 #   UPV_MONITOR    1-based display index passed to --monitor (default: unset)
 #   UPV_ROTATE     xrandr rotation: normal|left|right|inverted (default: unset)
+#   UPV_WIFI       1 to install Wi-Fi tools (NetworkManager, wpasupplicant, iw)
 #
 # If UPV_URL/UPV_USERNAME/UPV_PASSWORD are set, the viewer config is written so
 # the first-launch setup screen is skipped. Re-run with new values to change it.
@@ -72,6 +73,10 @@ WM="$(pick matchbox-window-manager openbox)" || die "No window manager package f
 PKGS+=("$WM")
 CURSOR_HIDER="$(pick unclutter-xfixes unclutter || true)"
 if [ -n "$CURSOR_HIDER" ]; then PKGS+=("$CURSOR_HIDER"); fi
+# NetworkManager leaves interfaces listed in /etc/network/interfaces (the
+# wired port set up by the installer) alone and manages Wi-Fi. Join a
+# network with: sudo nmtui
+if [ "${UPV_WIFI:-}" = "1" ]; then PKGS+=(network-manager wpasupplicant iw); fi
 
 log "Installing ${#PKGS[@]} packages"
 apt-get install -y -qq --no-install-recommends "${PKGS[@]}"

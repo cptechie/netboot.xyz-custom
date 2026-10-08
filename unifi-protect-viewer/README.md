@@ -38,11 +38,15 @@ in plain text in `~upv/.config/unifi-protect-viewer/config.json`.
 
 ### Bare metal over netboot.xyz
 
-Pick **Custom > Debian 13 + Protect Viewer kiosk** in netboot.xyz. It runs an
-unattended Debian install from `preseed.cfg` and loads Debian's non-free firmware
-bundle so network cards that need firmware (such as Realtek) work. The installer
-stops once to ask for a password for the `localadmin` sudo account. That install
-**erases the first disk**.
+Pick **Custom > Debian 13 kiosk** in netboot.xyz, then the install disk:
+
+- **First disk** installs to the first disk the installer finds with no questions.
+- **Choose during setup** shows the installer's disk list, then asks before erasing it.
+
+Both run an unattended Debian install (`preseed.cfg` or `preseed-ask.cfg`, which share
+`common.cfg`) and load Debian's non-free firmware bundle so network cards that need
+firmware (such as Realtek) work. The installer stops to ask for a password for the
+`localadmin` sudo account. The selected disk is **erased**.
 
 When it reboots, the viewer opens its setup screen. Enter the Protect URL, username
 and password there with a keyboard, or SSH in as `localadmin` and re-run `install.sh`

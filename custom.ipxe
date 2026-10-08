@@ -7,13 +7,18 @@
 clear custom_choice
 menu Custom
 item --gap UniFi Protect Viewer
-item upv_kiosk ${space} Debian 13 + Protect Viewer kiosk (ERASES FIRST DISK)
+item upv_kiosk ${space} Debian 13 kiosk
 choose custom_choice || goto custom_exit
 echo ${cls}
 goto ${custom_choice}
 goto custom_exit
 
 :upv_kiosk
+menu Install disk
+item preseed.cfg ${space} First disk
+item preseed-ask.cfg ${space} Choose during setup
+choose upv_preseed || goto custom
+echo ${cls}
 set upv_base https://raw.githubusercontent.com/${github_user}/netboot.xyz-custom/master/unifi-protect-viewer
 iseq ${buildarch} arm64 && set deb_arch arm64 || set deb_arch amd64
 set deb_root http://deb.debian.org/debian/dists/trixie/main/installer-${deb_arch}/current/images/netboot/debian-installer/${deb_arch}
@@ -22,7 +27,7 @@ imgfree
 # Keep the boot line as close as possible to netboot.xyz's own Debian entry.
 # Passing passwords and the Protect login here caused a kernel panic
 # (no initrd) on a UP Squared, so the installer asks for them instead.
-kernel ${deb_root}/linux auto=true priority=critical preseed/url=${upv_base}/preseed.cfg initrd=initrd.magic
+kernel ${deb_root}/linux auto=true priority=critical preseed/url=${upv_base}/${upv_preseed} initrd=initrd.magic
 initrd ${deb_root}/initrd.gz
 # The netboot initrd has no non-free firmware, so NICs like Realtek
 # fail at "Detect network hardware" without this.

@@ -15,6 +15,6 @@ If you are new to iPXE scripting, take a look at `custom.ipxe.example` and build
 
 ### Menu entries
 
-- **Debian 13 + Protect Viewer kiosk:** unattended Debian install that boots into
+- **UniFi Protect Viewer > Debian 13 kiosk:** unattended Debian install that boots into
   [unifi-protect-viewer](https://github.com/digital195/unifi-protect-viewer). The installer
   also works on its own on any existing Debian box. See [unifi-protect-viewer/](unifi-protect-viewer/README.md).

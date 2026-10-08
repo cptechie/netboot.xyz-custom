@@ -12,3 +12,9 @@ name from the Utilities menu (**Tools:** -> **Utilities** -> **netboot.xyz tools
 will cause a custom menu to appear in the main menu.
 
 If you are new to iPXE scripting, take a look at `custom.ipxe.example` and build up from that.
+
+### Menu entries
+
+- **Debian 13 + Protect Viewer kiosk:** unattended Debian install that boots into
+  [unifi-protect-viewer](https://github.com/digital195/unifi-protect-viewer). The installer
+  also works on its own on any existing Debian box. See [unifi-protect-viewer/](unifi-protect-viewer/README.md).

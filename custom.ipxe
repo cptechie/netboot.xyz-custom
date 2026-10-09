@@ -28,9 +28,9 @@ iseq ${upv_ask} 1 && set upv_ask_box [x] || set upv_ask_box [${space}]
 iseq ${upv_confirm} 1 && set upv_confirm_box [x] || set upv_confirm_box [${space}]
 iseq ${upv_wifi} 1 && set upv_wifi_box [x] || set upv_wifi_box [${space}]
 menu Debian 13 kiosk
-item upv_toggle_ask ${upv_ask_box} Choose disk during setup
-item upv_toggle_confirm ${upv_confirm_box} Confirm before erasing
-item upv_toggle_wifi ${upv_wifi_box} Wi-Fi tools
+item upv_toggle_ask ${upv_ask_box} Choose disk
+item upv_toggle_confirm ${upv_confirm_box} Confirm erase
+item upv_toggle_wifi ${upv_wifi_box} Wi-Fi
 item --gap
 item upv_install Install
 choose --default ${upv_sel} upv_sel || goto custom
@@ -68,7 +68,7 @@ kernel ${deb_root}/linux auto=true priority=critical preseed/url=${upv_base}/${u
 initrd ${deb_root}/initrd.gz
 # The netboot initrd has no non-free firmware, so NICs like Realtek
 # fail at "Detect network hardware" without this.
-initrd ${deb_firmware} || echo Firmware bundle unavailable, continuing without it
+initrd ${deb_firmware} || echo No firmware bundle
 iseq ${platform} efi && iseq ${deb_arch} amd64 && shim ${deb_root}/bootnetx64.efi ||
 iseq ${platform} efi && iseq ${deb_arch} arm64 && shim ${deb_root}/bootnetaa64.efi ||
 boot || goto custom

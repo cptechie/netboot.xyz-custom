@@ -43,9 +43,9 @@ Pick **Custom > Debian 13 kiosk** in netboot.xyz. Toggle options with Enter, the
 
 | Option | Off (default) | On |
 | --- | --- | --- |
-| Choose disk during setup | Installs to the first disk found | Shows the installer's disk list (`preseed-ask.cfg`) |
-| Confirm before erasing | Erases the disk without asking | Asks "Write the changes to disks?" (`upv_confirm=1`) |
-| Wi-Fi tools | Wired networking only | Installs NetworkManager (`upv_wifi=1`) |
+| Choose disk | Installs to the first disk found | Shows the installer's disk list (`preseed-ask.cfg`) |
+| Confirm erase | Erases the disk without asking | Asks "Write the changes to disks?" (`upv_confirm=1`) |
+| Wi-Fi | Wired networking only | Installs NetworkManager (`upv_wifi=1`) |
 
 With every option off, the boot line is the same as before. Each option that is on
 adds one short flag to it. Both preseeds share `common.cfg` and load Debian's non-free

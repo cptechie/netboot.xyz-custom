@@ -32,21 +32,26 @@ Re-run the same command to upgrade or to change the Protect login.
 | `UPV_MONITOR` | 1-based display index for multi-monitor machines. |
 | `UPV_ROTATE` | `left`, `right` or `inverted` for portrait or flipped screens. |
 | `UPV_USER` | Kiosk account name. Default is `upv`. |
+| `UPV_WIFI` | `1` installs Wi-Fi tools (NetworkManager). Join a network with `sudo nmtui`. |
 
 Use a local Protect user with view-only permissions. The app stores the password
 in plain text in `~upv/.config/unifi-protect-viewer/config.json`.
 
 ### Bare metal over netboot.xyz
 
-Pick **Custom > Debian 13 kiosk** in netboot.xyz, then the install disk:
+Pick **Custom > Debian 13 kiosk** in netboot.xyz. Toggle options with Enter, then pick **Install**:
 
-- **First disk** installs to the first disk the installer finds with no questions.
-- **Choose during setup** shows the installer's disk list, then asks before erasing it.
+| Option | Off (default) | On |
+| --- | --- | --- |
+| Choose disk | Installs to the first disk found | Shows the installer's disk list (`preseed-ask.cfg`) |
+| Confirm erase | Erases the disk without asking | Asks "Write the changes to disks?" (`upv_confirm=1`) |
+| Wi-Fi | Wired networking only | Installs NetworkManager (`upv_wifi=1`) |
 
-Both run an unattended Debian install (`preseed.cfg` or `preseed-ask.cfg`, which share
-`common.cfg`) and load Debian's non-free firmware bundle so network cards that need
-firmware (such as Realtek) work. The installer stops to ask for a password for the
-`localadmin` sudo account. The selected disk is **erased**.
+With every option off, the boot line is the same as before. Each option that is on
+adds one short flag to it. Both preseeds share `common.cfg` and load Debian's non-free
+firmware bundle so network cards that need firmware (such as Realtek) work. The
+installer stops to ask for a password for the `localadmin` sudo account. The
+selected disk is **erased**.
 
 When it reboots, the viewer opens its setup screen. Enter the Protect URL, username
 and password there with a keyboard, or SSH in as `localadmin` and re-run `install.sh`
